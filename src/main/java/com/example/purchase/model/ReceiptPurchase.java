@@ -8,13 +8,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Getter
 @Setter
 @Document(collection = "receiptPurchases")
 public class ReceiptPurchase {
     @Id
-    private String id;
+    private final String id = UUID.randomUUID().toString();
     private String userId;
     private List<String> lineData;
     private String vendor;
