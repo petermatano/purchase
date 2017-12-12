@@ -3,6 +3,7 @@ package com.example.purchase.model;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -15,7 +16,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReceiptPurchase {
     @Id
-    private final String id;
+    private UUID id;
     private String userId;
     private List<String> lineData;
     private String vendor;

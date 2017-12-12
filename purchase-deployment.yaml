@@ -1,0 +1,35 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: purchase-deployment
+  labels:
+    app: purchase
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: purchase
+  template:
+    metadata:
+      labels:
+        app: purchase
+    spec:
+      containers:
+        - name: purchase
+          image: squaretrade/purchase:0.0.1
+          ports:
+            - containerPort: 8080
+          env:
+          - name: MONGODB_HOST
+            value: "localhost"
+        - name: mongo
+          image: frodenas/mongodb
+          ports:
+            - containerPort: 27017
+          env:
+          - name: MONGODB_USERNAME
+            value: "admin"
+          - name: MONGODB_PASSWORD
+            value: "password"
+          - name: MONGODB_DBNAME
+            value: "purchase"
