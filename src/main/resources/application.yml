@@ -1,4 +1,11 @@
 spring:
+  application:
+    name: purchase
   data:
     mongodb:
-      uri: mongodb://localhost:27017/purchase
+      database: purchase
+      host: ${MONGODB_HOST:192.168.99.100}
+      port: 27017
+      username: admin
+      password: password
+      
