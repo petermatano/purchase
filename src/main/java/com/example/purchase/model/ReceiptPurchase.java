@@ -15,7 +15,7 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReceiptPurchase {
     @Id
-    private String id;
+    private final String id;
     private String userId;
     private List<String> lineData;
     private String vendor;
