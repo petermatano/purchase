@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'docker build --no-cache -t $(squaretrade/purchase):$(0.0.1) --rm'
+                sh 'docker build --no-cache -t squaretrade/purchase:0.0.1 --rm'
             }
         }
         stage('Test') {
