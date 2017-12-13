@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker 'maven:3.3.3' }
+    agent any
     stages {
         stage('Build') {
             steps {
@@ -8,8 +8,10 @@ pipeline {
             }
         }
         stage('Test') {
+            steps {
                 sh 'make check || true'
                 junit '**/target/*.xml'
+            }
         }
         stage('Deploy') {
             when {
