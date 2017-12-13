@@ -12,8 +12,6 @@ ENV BUILD_DIR=${buildDir}
 
 RUN apk update && apk upgrade
 
-RUN apk add docker
-
 ADD $BUILD_DIR/$JAR_FILE $BASE_DIRECTORY/$JAR_FILE
 
 EXPOSE 8080
