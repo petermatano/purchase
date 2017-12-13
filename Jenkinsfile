@@ -3,8 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'make build'
-                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                sh 'docker build --no-cache -t $(squaretrade/purchase):$(0.0.1) --rm'
             }
         }
         stage('Test') {
