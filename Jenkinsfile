@@ -3,23 +3,20 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh '''
-                    mvn -B -DskipTests clean package
-                    make build
-                '''
+                sh 'make'
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
             }
         }
         stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                  junit 'target/surefire-reports/*.xml'
-                }
-            }
+                sh 'make check || true'
+                junit '**/target/*.xml'
         }
         stage('Deploy') {
+            when {
+              expression {
+                currentBuild.result == null || currentBuild.result == 'SUCCESS'
+              }
+            }
             steps {
                 sh '''
                     name="purchase-deployment"
