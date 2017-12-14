@@ -1,4 +1,4 @@
-NAME = squaretrade/purchase
+NAME = purchase
 VERSION = 0.0.1
 
 .PHONY: all build build-nocache test tag_latest release
