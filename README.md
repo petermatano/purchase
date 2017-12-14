@@ -51,7 +51,7 @@ make build
 
 * Deploy application
 ```
-kubectl create -f deployment.yaml
+kubectl create -f purchase-deployment.yaml
 ```
 
 * Register application as a service
@@ -69,12 +69,4 @@ minikube service purchase-deployment --url
 mongo
 use purchase
 db.getCollection('receiptPurchases').find().forEach(printjson)
-```
-
-# REST API
-The application defines the following endpoints
-```
-* POST /receiptPurchases - Create a new receipt purchase
-
-* GET /receiptPurchases/{userId}?vendor={vendor}&purchaseDate={mm-dd-yyyy}&sku={sku} - Retrieve a receipt purchase by user id and filter by vendor, purchase date, or sku
 ```
