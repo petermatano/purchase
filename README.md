@@ -1,11 +1,11 @@
-#Purchase API
+# Purchase API
 Purchase API is a REST based microservice created with Spring Boot. Leveraging Spring 5's WebFlux framework, the microservice 
 implements a reactive programming paradigm to provide a non-blocking and asynchronous RESTful API. MongoDB is the backing 
 data store, which provides a driver for reactive support. Using Docker and Minikube, a container image of the application 
 can be deployed to a single-node Kubernetes cluster running locally.  
 
 
-#Getting Started
+# Getting Started
 **Prerequisites**
 
 The items below must be installed locally
@@ -71,7 +71,7 @@ use purchase
 db.getCollection('receiptPurchases').find().forEach(printjson)
 ```
 
-#REST API
+# REST API
 The application defines the following endpoints
 ```
 * POST /receiptPurchases - Create a new receipt purchase
