@@ -1,10 +1,11 @@
 package com.example.purchase.controller;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.reactive.function.server.ServerRequest;
 import com.example.purchase.model.ReceiptPurchase;
 import com.example.purchase.repository.ReceiptPurchaseRepository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/receiptPurchases")
+@RequestMapping(path = "/receiptPurchases", consumes = "application/json",
+        produces = "application/json")
 public class ReceiptPurchaseController {
 
     @Autowired
@@ -27,55 +28,61 @@ public class ReceiptPurchaseController {
 
     @GetMapping("/{userId}")
     @ResponseBody
-    public Flux<ReceiptPurchase> getReceiptPurchaseByUserId(ServerRequest request,
+    public Flux<ReceiptPurchase> getReceiptPurchaseByUserId(ServerHttpRequest request,
             @PathVariable(value = "userId") String userId) {
-        final Optional<String> vendor = request.queryParam("vendor");
+        final List<String> vendors = request.getQueryParams().get("vendor");
 
         final SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
-        final Optional<Date> purchaseDate = request.queryParam("purchaseDate").flatMap(date -> {
-            try {
-                return Optional.ofNullable(sdf.parse(date));
-            } catch (ParseException e) {
-                return Optional.empty();
-            }
-        });
+        final List<String> purchaseDate = request.getQueryParams().get("purchaseDate");
 
-        final Optional<String> sku = request.queryParam("sku");
+        final List<String> sku = request.getQueryParams().get("sku");
 
-        return receiptPurchaseRepository.findByUserId(userId).filter(purchase -> {
-            if (vendor.isPresent() && !purchase.getVendor().equalsIgnoreCase(vendor.get())) {
-                return false;
-            }
+        return receiptPurchaseRepository.findByUserId(userId);
 
-            if (purchaseDate.isPresent()
-                    && !purchase.getPurchaseData().equals(purchaseDate.get())) {
-                return false;
-            }
-
-            if (sku.isPresent() && !purchase.getPotentialPurchaseId().contains(sku.get())) {
-                return false;
-            }
-
-            return true;
-        });
+        // .filter(purchase -> {
+        // if (!vendors.isEmpty() && !purchase.getVendor().equalsIgnoreCase(vendors.get(0))) {
+        // return false;
+        // }
+        //
+        // try {
+        // if (!purchaseDate.isEmpty()
+        // && !purchase.getPurchaseData().equals(sdf.parse(purchaseDate.get(0)))) {
+        // return false;
+        // }
+        // } catch (ParseException e) {
+        // }
+        //
+        // if (!sku.isEmpty() && !purchase.getPotentialPurchaseId().contains(sku.get(0))) {
+        // return false;
+        // }
+        //
+        // return true;
+        // });
     }
 
     @PostMapping("/{userId}")
     @ResponseBody
     public Mono<ReceiptPurchase> createReceiptPurchase(
-            @PathVariable(value = "userId") String userId, ServerRequest request,
-            @RequestBody ReceiptPurchase receiptPurchase) {
+            @PathVariable(value = "userId") String userId, ServerHttpRequest request,
+            @RequestBody List<String> lineData) {
 
-        final Optional<String> imageCdnId = request.queryParam("imageCdnId");
-        final Optional<String> imageCdnShaHash = request.queryParam("imageCdnShaHash");
-        final Optional<String> imageCdnUri = request.queryParam("imageCdnUri");
+        final Optional<String> imageCdnId =
+                request.getQueryParams().get("imageCdnId").stream().findFirst();
+        final Optional<String> imageCdnShaHash =
+                request.getQueryParams().get("imageCdnShaHash").stream().findFirst();
+        final Optional<String> imageCdnUri =
+                request.getQueryParams().get("imageCdnUri").stream().findFirst();
 
         if (!imageCdnId.isPresent() || !imageCdnShaHash.isPresent() || !imageCdnUri.isPresent()) {
             return Mono.empty();
         }
 
-        ReceiptPurchase purchase = new ReceiptPurchase(userId, receiptPurchase.getLineData(),
-                imageCdnId.get(), imageCdnShaHash.get(), imageCdnUri.get());
+        ReceiptPurchase purchase = new ReceiptPurchase(userId, lineData, imageCdnId.get(),
+                imageCdnShaHash.get(), imageCdnUri.get());
+
+        purchase.setVendor("Best Buy");
+        purchase.setScanDate(Calendar.getInstance().getTime());
+        purchase.setPurchaseData(Calendar.getInstance().getTime());
 
         return receiptPurchaseRepository.save(purchase);
     }
