@@ -1,5 +1,4 @@
 FROM openjdk:8-jdk-alpine
-MAINTAINER Jonathan Whitaker <jwhitaker@squaretrade.com.com>
 
 ARG baseDirectory="/usr/share/squaretrade"
 ENV BASE_DIRECTORY=${baseDirectory}
