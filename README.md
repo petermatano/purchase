@@ -29,7 +29,7 @@ git clone git@github.com/petermatano/purchase.git
 
 * Start MiniKube
 ```
-start --vm-driver=virtualbox --disk-size=40g
+minikube start --vm-driver=virtualbox --disk-size=40g
 eval $(minikube docker-env)
 ```
 
@@ -62,11 +62,4 @@ kubectl expose deployment purchase-deployment --type=NodePort
 * Get application URL
 ```
 minikube service purchase-deployment --url
-```
-
-* Show 'receiptPurchases' collection in MongoDB
-```
-mongo
-use purchase
-db.getCollection('receiptPurchases').find().forEach(printjson)
 ```
