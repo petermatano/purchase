@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.squaretrade</groupId>
 	<artifactId>purchase</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 	<name>purchase</name>
 	<description>Microservice example using Spring 5 reactive streams</description>
 	<parent>

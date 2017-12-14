@@ -1,4 +1,4 @@
-NAME = squaretrade/purchase
+NAME = purchase
 VERSION = 0.0.2
 
 .PHONY: all build build-nocache test tag_latest release
@@ -6,7 +6,7 @@ VERSION = 0.0.2
 all: build
 
 build:
-	docker build --no-cache -t $(NAME):$(VERSION) --rm .
+	docker build -t $(NAME):$(VERSION) --rm .
 	
 run:
 	docker run -it --rm -p 8080:8080 $(NAME):$(VERSION)

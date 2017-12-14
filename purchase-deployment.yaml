@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: purchase
-          image: squaretrade/purchase:0.0.1
+          image: purchase:0.0.2
           ports:
             - containerPort: 8080
           env:

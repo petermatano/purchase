@@ -29,7 +29,8 @@ git clone git@github.com/petermatano/purchase.git
 
 * Start MiniKube
 ```
-minikube start --vm-driver=virtualbox
+start --vm-driver=virtualbox --disk-size=40g
+eval $(minikube docker-env)
 ```
 
 * Run Minikube dashboard
@@ -39,7 +40,6 @@ minikube dashboard
 
 * Pull MongoDB Docker image
 ```
-eval $(minikube docker-env)
 docker pull frodenas/mongodb
 ```
 

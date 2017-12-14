@@ -3,7 +3,7 @@ FROM openjdk:8-jdk-alpine
 ARG baseDirectory="/usr/share/squaretrade"
 ENV BASE_DIRECTORY=${baseDirectory}
 
-ARG jarFile="purchase-0.0.1-SNAPSHOT.jar"
+ARG jarFile="purchase-0.0.2-SNAPSHOT.jar"
 ENV JAR_FILE=${jarFile}
 
 ARG buildDir="target"
